@@ -1,0 +1,45 @@
+Dependencies:
+        pygame
+        moderngl
+        pyglm
+        numpy
+        pillow
+        sqlite3
+
+To start a server:
+
+   ./netplay --server -d [YDK]
+
+to connect to a server:
+
+   ./netplay --client [IP] -d [YDK]
+
+
+controls:
+        'a' to activate card
+        'e' to end turn
+        'f' to flip card
+        's' to set monster
+        'd' to draw card
+        'r' to shuffle deck
+        'm' to mill
+        'g' to send card to GY
+        'b' to banish
+        'n' to normal summon
+        'h' to add card to hand
+        'c' to change battle posistion
+        'z' to shuffle hand
+        'x' to tsuk monster
+        'p' to pass card to oppoenent
+        '0-9' to key in LP delta
+        'backspace' to delete number from LP delta
+        '-' subtract LP delta from LP
+        '+' add LP delta to LP
+        'right arrow' next phase
+        'left arrow' prevoius phase
+        'left click' summon token to zone
+        'right click' switch token type
+        'CTRL + left click' increment counter
+        'CTRL + right click' decrement counter
+        'scroll wheel' scroll through deck/GY/banish
+        'shift + scroll' scroll through fusion deck

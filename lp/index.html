@@ -1,0 +1,151 @@
+<html>
+  <head>
+    <title>Life Points</title>
+    <style>
+      @font-face {
+	  font-family: ygo;
+	  src: url("Stone Serif Semibold.ttf");
+      }
+
+      body {
+	  background-image: url("bg.gif");
+	  padding-top: 60px;
+	  font-family: ygo;
+      }
+
+      td {
+	  font-size: 180px;
+	  text-align: center;
+	  border-radius: 20px;
+      }
+
+      sup {
+	  color: lightgrey;
+	  font-size: 100px;
+      }
+      
+	    
+      .name-wrapper {
+	  max-width: 10000px;   
+      }
+
+      .name-input {
+	  font-size: 140px;
+	  width: 500px;
+	  font-family: ygo;
+	  text-align: center;
+	  color: lightgrey;
+	  background-color: transparent;
+	  border: 0 none transparent;
+      }
+
+      .delta-input {
+	  background-color: transparent;
+	  font-size: 140px;
+	  font-family: ygo;
+	  width: 500px;
+	  color: transparent;
+	  text-shadow: 0 0 0 red;
+	  text-align: center;
+	  border: 0 none transparent;
+      }
+      
+      .delta-input:focus{ outline: none; }
+      div { padding: 0px 100px 0px 100px; }
+    </style>
+  </head>
+  <body>
+    <center>
+      <img style="float:left"src="fire.gif"><img style="float:right" src="fire.gif">
+      <table>
+	<tr>
+	  <td>
+	      <span id="p0" class="name-input" spellcheck="false" contenteditable="true">mo</span>
+	      <sup id="p0s"></sup>
+	  </td>
+	  <td>
+	      <span id="p1" class="name-input" spellcheck="false" contenteditable="true">jc</span>
+	    <sup id="p1s"></sup>
+	  </td>
+	</tr>
+	<tr><td><div class="lp" id="lp0"></div></td><td><div class="lp" id="lp1"></div></td></tr>
+	<tr><td><input class="delta-input" id="delta0"/></td><td><input class="delta-input" id="delta1"/></td></tr>
+      </table>
+    </center>
+  </body>
+  <script>
+    // if no element has focus, move focus to active LP
+    function checkFocus() {
+	if (document.getElementById("p0") != document.activeElement &&
+	    document.getElementById("p1") != document.activeElement &&
+	    document.getElementById("delta0") != document.activeElement &&
+	    document.getElementById("delta1") != document.activeElement) {
+	    pActive == 0 ? document.getElementById("delta0").focus() : document.getElementById("delta1").focus();
+	}
+    }
+
+    function refresh() {
+	if (pActive == 0) {
+	    document.getElementById("p0").style.color = "magenta";
+	    document.getElementById("p1").style.color = "lightgrey";
+	    document.getElementById("delta0").focus();
+	} else {
+	    document.getElementById("p0").style.color = "lightgrey";
+	    document.getElementById("p1").style.color = "magenta";
+	    document.getElementById("delta1").focus();
+	}
+	document.getElementById("delta0").value = "";
+	document.getElementById("delta1").value = "";
+	lp0 > 4500 ? document.getElementById("lp0").style.color = "#00e600" : 0;
+	lp0 <= 4500 && lp0 > 2000 ? document.getElementById("lp0").style.color = "yellow" : 0;
+	lp0 <= 2000 ? document.getElementById("lp0").style.color = "red" : 0;
+	lp1 > 4500 ? document.getElementById("lp1").style.color = "#00e600" : 0;
+	lp1 <= 4500 && lp1 > 2000 ? document.getElementById("lp1").style.color = "yellow" : 0;
+	lp1 <= 2000 ? document.getElementById("lp1").style.color = "red" : 0;
+    }
+
+    function init() {
+	pActive = 0;
+	lp0 = lp1 = 8000
+	document.getElementById("lp0").innerHTML = lp0;
+	document.getElementById("lp1").innerHTML = lp1;
+	document.getElementById("p0s").innerHTML = p0s;
+	document.getElementById("p1s").innerHTML = p1s;
+	refresh();
+    };
+
+    var p0s = 0;
+    var p1s = 0;
+    setInterval(checkFocus, 100);
+    document.onkeypress = function(e) {
+	var delta0 = document.getElementById("delta0").value;
+	var delta1 = document.getElementById("delta1").value;
+	if (e.keyCode == 46) { // period
+	    pActive == 0 ? pActive = 1 : pActive = 0
+	    refresh();
+	} else if (e.keyCode == 13 || e.keyCode == 45) { // enter key or -
+	    if (delta0 == 69 || delta1 == 69) { // reset game, tally score
+		lp0 <= 0 ? p1s += 1 : 0;
+		lp1 <= 0 ? p0s += 1 : 0;
+		init();
+	    // } else if (delta0 == 7 || delta1 == 7) {
+	    // 	for (i = 0; i < Math.floor(Math.random() * (110 - 100)) + 100; i++) {
+	    // 	}
+	    } else {
+		pActive == 0 ? lp0 -= delta0 : lp1 -= delta1;
+	    }
+	} else if (e.keyCode == 43) { // +
+	    pActive == 0 ? lp0 += +delta0 : lp1 += +delta1;
+	} else if (e.keyCode == 47) { // slash
+	    pActive == 0 ? lp0 = lp0 / 2 : lp1 = lp1 / 2;
+	}
+	if (e.keyCode < 48) { // ignore symbols
+	    e.preventDefault();
+	    refresh();
+	}
+	document.getElementById("lp0").innerHTML = lp0;
+	document.getElementById("lp1").innerHTML = lp1;
+    };
+    window.onload = init();
+  </script>
+</html>
